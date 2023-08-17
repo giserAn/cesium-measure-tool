@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cesium.com/downloads/cesiumjs/releases/1.108/Build/Cesium/Cesium.js"></script>
+    <link
+      href="https://cesium.com/downloads/cesiumjs/releases/1.108/Build/Cesium/Widgets/widgets.css"
+      rel="stylesheet"
+    />
+    <script src="../dist/index.min.js"></script>
+    <title>cesium-measure-tool</title>
+    <style>
+      .tool-wrapper {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="cesiumContainer"></div>
+    <div class="tool-wrapper">
+      <button id="distance" onclick="measure('distance')">距离</button>
+      <button id="area" onclick="measure('area')">面积</button>
+      <button id="clear" onclick="measure('clear')">清空</button>
+    </div>
+    <script>
+      Cesium.Ion.defaultAccessToken =
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI2ZWFlODZmNS0zMzQ1LTQ1NWMtYmM0Mi0yOGVmYzNlZDJjZWQiLCJpZCI6MjY1MzEsInNjb3BlcyI6WyJhc3IiLCJnYyJdLCJpYXQiOjE1ODc5MDA5MDd9.aRflwnhqTle7ci0Q5JJSv5XkdpcJk2hv75dvEpjLWxo'
+
+      const viewer = new Cesium.Viewer('cesiumContainer', {})
+
+      viewer.camera.flyTo({
+        destination: Cesium.Cartesian3.fromDegrees(106.33, 29.35, 3000000),
+        orientation: {
+          heading: Cesium.Math.toRadians(0.0),
+          pitch: Cesium.Math.toRadians(-90),
+        },
+      })
+
+      const tool = new MeasureTool(viewer, {
+        showAllDistancePosition: 'end',
+        // polylineStyle: {
+        //   width: 10,
+        // },
+        // polygonStyle: {
+        //   material: Cesium.Color.RED.withAlpha(0.2),
+        // },
+      })
+      function measure(type) {
+        switch (type) {
+          case 'distance':
+            tool.activate('distance')
+            break
+          case 'area':
+            tool.activate('area')
+            break
+          case 'clear':
+            tool.clearAll()
+            break
+        }
+      }
+    </script>
+  </body>
+</html>

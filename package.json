@@ -1,0 +1,31 @@
+{
+  "name": "cesium-measure-tool",
+  "version": "1.0.0",
+  "description": "cesium 测量工具",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "tsc": "tsc --outDir dist",
+    "pack": "webpack",
+    "dist": "npm run tsc && webpack",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "cesium",
+    "measure"
+  ],
+  "author": "angiser",
+  "license": "ISC",
+  "dependencies": {
+    "@turf/area": "^6.5.0",
+    "@turf/centroid": "^6.5.0",
+    "@turf/helpers": "^6.5.0"
+  },
+  "devDependencies": {
+    "cesium": "^1.108.0",
+    "ts-loader": "^9.4.4",
+    "typescript": "^5.1.6",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
+  }
+}
