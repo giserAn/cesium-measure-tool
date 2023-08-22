@@ -1,27 +1,3 @@
-"use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 var __rest = (this && this.__rest) || function (s, e) {
     var t = {};
     for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
@@ -33,14 +9,12 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.MeasureType = void 0;
-const Cesium = __importStar(require("cesium"));
-const utils_1 = require("./utils");
+import * as Cesium from 'cesium';
+import { _calcAllDistance2text, _calcArea2text, _calcDistance2text, _mathAreaAndCenter, _mathMidpoint } from './utils';
 /**
  * 测量工具分类
  */
-var MeasureType;
+export var MeasureType;
 (function (MeasureType) {
     /**
      * 距离测量
@@ -50,8 +24,8 @@ var MeasureType;
      * 面积测量
      */
     MeasureType["Area"] = "area";
-})(MeasureType || (exports.MeasureType = MeasureType = {}));
-class MeasureTool {
+})(MeasureType || (MeasureType = {}));
+export default class MeasureTool {
     /**
      * constructor(viewer: Cesium.Viewer,options?: PolygonGraphics.ConstructorOptions);
      * @param viewer
@@ -255,9 +229,9 @@ class MeasureTool {
             if (len >= 1) {
                 let [p1, p2] = [this.tempPositions[len - 1], this._mousePos];
                 // 中点
-                const centerP = (0, utils_1._mathMidpoint)(p1, p2);
+                const centerP = _mathMidpoint(p1, p2);
                 // 距离
-                const distanceText = (0, utils_1._calcDistance2text)(p1, p2);
+                const distanceText = _calcDistance2text(p1, p2);
                 this.addLabel(centerP, distanceText, len);
             }
         }
@@ -266,16 +240,16 @@ class MeasureTool {
             if (len >= 2) {
                 let [p1, p2] = [this.tempPositions[len - 1], this.tempPositions[len - 2]];
                 // 中点
-                const centerP = (0, utils_1._mathMidpoint)(p1, p2);
+                const centerP = _mathMidpoint(p1, p2);
                 // 距离
-                const distanceText = (0, utils_1._calcDistance2text)(p1, p2);
+                const distanceText = _calcDistance2text(p1, p2);
                 this.addLabel(centerP, distanceText, len);
                 if (this.options.showAllDistance && len >= 3) {
                     // 总距离
-                    const allDistanceText = (0, utils_1._calcAllDistance2text)(this.tempPositions);
+                    const allDistanceText = _calcAllDistance2text(this.tempPositions);
                     if (this.options.showAllDistancePosition === 'center') {
                         let points = [...this.tempPositions, this.tempPositions[0]];
-                        const { centroid } = (0, utils_1._mathAreaAndCenter)(points);
+                        const { centroid } = _mathAreaAndCenter(points);
                         this.addLabel(centroid, allDistanceText, 0);
                     }
                     else {
@@ -292,7 +266,7 @@ class MeasureTool {
             const len = this.tempPositions.length;
             if (len >= 2) {
                 let points = [...this.tempPositions, this._mousePos, this.tempPositions[0]];
-                const { text, centroid } = (0, utils_1._calcArea2text)(points);
+                const { text, centroid } = _calcArea2text(points);
                 this.addLabel(centroid, text);
             }
         }
@@ -300,7 +274,7 @@ class MeasureTool {
             const len = this.tempPositions.length;
             if (len >= 3) {
                 let points = [...this.tempPositions, this.tempPositions[0]];
-                const { text, centroid } = (0, utils_1._calcArea2text)(points);
+                const { text, centroid } = _calcArea2text(points);
                 this.addLabel(centroid, text);
             }
         }
@@ -318,4 +292,3 @@ class MeasureTool {
         });
     }
 }
-exports.default = MeasureTool;
